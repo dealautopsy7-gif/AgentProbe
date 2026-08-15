@@ -1,0 +1,20 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  # Steel.dev, self-hosted (spec: "self-hosted via Docker to control cost").
+  # Verified working: POST /v1/sessions returns a websocketUrl that
+  # Playwright's chromium.connectOverCDP() connects to directly (see
+  # SteelBrowserProvider.ts / runAgentAttempt.ts). No API key needed for
+  # self-hosted — STEEL_API_KEY stays blank in .env.
+  steel-browser:
+    image: ghcr.io/steel-dev/steel-browser-api:latest
+    ports:
+      - "3000:3000"
+
+volumes:
+  redis-data:
